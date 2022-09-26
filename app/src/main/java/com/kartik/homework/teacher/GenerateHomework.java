@@ -172,16 +172,7 @@ public class GenerateHomework extends TeacherDrawer implements DatePickerDialog.
                                 studentList = (List<String>) document.get("StudentList");
                             }
 
-                            homework = new Homework(title, content, authorStr, className, uId, new Date(), new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(date)), studentList);
-//                            homework = new HashMap<>();
-//                            homework.put("Title", title);
-//                            homework.put("Content", content);
-//                            homework.put("Author", authorStr);
-//                            homework.put("Class", className);
-//                            homework.put("AuthorID", uId);
-//                            homework.put("TimeStamp", new Date());
-//                            homework.put("DueDate", new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(date)));
-//                            homework.put("NotSeenBy", studentList);
+                            homework = new Homework(title, content, authorStr, className, uId, new Date(time), new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(date)), studentList);
 
                             FirebaseFirestore.getInstance()
                                     .collection("Homework")

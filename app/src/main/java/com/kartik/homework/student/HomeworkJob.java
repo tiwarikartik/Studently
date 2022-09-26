@@ -62,8 +62,8 @@ public class HomeworkJob extends JobService {
     private void getNotifications() {
         FirebaseFirestore.getInstance()
                 .collection("Homework")
-                .whereEqualTo("Class", className)
-                .whereArrayContains("Not Seen By", uId)
+                .whereEqualTo("className", className)
+                .whereArrayContains("notSeenBy", uId)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
                     @Override
@@ -71,8 +71,8 @@ public class HomeworkJob extends JobService {
 
                         for (DocumentSnapshot snap : task.getResult()) {
 
-                            String channelId = snap.getString("Author ID");
-                            long notificationId = snap.getDate("TimeStamp").getTime();
+                            String channelId = snap.getString("authorId");
+                            long notificationId = snap.getDate("timeStamp").getTime();
 
                             Log.d(TAG, channelId + " - " + notificationId);
                             getData(channelId, notificationId);
@@ -86,15 +86,13 @@ public class HomeworkJob extends JobService {
         FirebaseFirestore.getInstance()
                 .collection("Homework")
                 .document(channelId + "_" + notificationId)
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot snapshot = task.getResult();
+                    public void onSuccess(DocumentSnapshot snapshot) {
                         CHANNEL_ID = channelId;
-                        CHANNEL_NAME = "Homework Notifications from " + snapshot.get("Author");
-                        TITLE = snapshot.getString("Title");
-                        CONTENT = snapshot.getString("Content");
+                        CHANNEL_NAME = "Homework Notifications from " + snapshot.get("author");
+                        TITLE = snapshot.getString("title");
+                        CONTENT = snapshot.getString("content");
                         NOTIFY_ID = notificationId;
                         Log.d(TAG, CHANNEL_ID + ", " + CHANNEL_NAME + ", " + NOTIFY_ID + ", " + TITLE + ", " + CONTENT);
 
@@ -151,22 +149,22 @@ public class HomeworkJob extends JobService {
                 .document(uId);
         System.out.println(uId);
 
-        actions.update("Notification Received", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+        actions.update("notified", true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(getApplicationContext(), "Notification Received", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Notified", Toast.LENGTH_SHORT).show();
             }
         });
 
         FirebaseFirestore.getInstance()
                 .collection("Homework")
-                .whereEqualTo("Author ID", CHANNEL_ID)
-                .whereArrayContains("Not Seen By", uId)
+                .whereEqualTo("authorId", CHANNEL_ID)
+                .whereArrayContains("notSeenBy", uId)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (DocumentSnapshot snap : task.getResult()) {
-                            snap.getReference().update("Not Seen By", FieldValue.arrayRemove(uId));
+                            snap.getReference().update("notSeenBy", FieldValue.arrayRemove(uId));
                         }
                     }
                 });
