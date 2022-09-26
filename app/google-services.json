@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173071695336",
+    "project_id": "homework-22413",
+    "storage_bucket": "homework-22413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173071695336:android:3e281d4d39f0e31952f85d",
+        "android_client_info": {
+          "package_name": "com.kartik.homework"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173071695336-dgn936qh9432e8dr598r6dhhi1ecls72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9Boah6V_b9CVMINdoSX6t0TKV0pk4tYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173071695336-dgn936qh9432e8dr598r6dhhi1ecls72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

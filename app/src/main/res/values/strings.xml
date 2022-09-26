@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Homework</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="intro_title_one">Best Application</string>
+    <string name="intro_desc_one">Our app is one of the best Android applications available for free usage for managing your homework at schools, colleges, and tutorials.</string>
+    <string name="intro_title_two">Economical</string>
+    <string name="intro_desc_two">It is cost-effective since, unlike other apps on the market, only the institution must pay for the homework management application.</string>
+    <string name="intro_title_three">Notification</string>
+    <string name="intro_desc_three">When a teacher posts a homework assignment directly on the Android application in real time, notifications are sent to the pupils.</string>
+    <string name="intro_title_four">Loved by Students</string>
+    <string name="intro_desc_four">Numerous students have expressed this opinion in surveys and feedback that the user experience is the best in the world.</string>
+    <string name="open_drawer">Drawer Open</string>
+    <string name="close_drawer">Drawer Close</string>
+</resources>
