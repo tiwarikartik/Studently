@@ -146,7 +146,7 @@ public class GenerateHomework extends TeacherDrawer implements DatePickerDialog.
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         TextInputLayout author = (TextInputLayout) findViewById(R.id.author);
-                        authorStr = task.getResult().getString("Name");
+                        authorStr = task.getResult().getString("name");
                         author.getEditText().setText(authorStr);
                     }
                 });
@@ -193,11 +193,6 @@ public class GenerateHomework extends TeacherDrawer implements DatePickerDialog.
     }
 
     public void createActions(List<String> studentList, long time) {
-
-//        HashMap<String, Object> data = new HashMap<>();
-//        data.put("NotificationReceived", false);
-//        data.put("HomeworkUploaded", false);
-//        data.put("Link", "");
 
         Actions actions = new Actions(false, false, "");
 

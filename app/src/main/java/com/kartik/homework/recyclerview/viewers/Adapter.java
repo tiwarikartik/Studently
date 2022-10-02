@@ -57,6 +57,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
                 editor.apply();
                 System.out.println(link);
                 holder.attachment.setClickable(true);
+                holder.attachment.setVisibility(View.VISIBLE);
                 holder.attachment.setImageResource(R.drawable.ic_attachment);
             }
         }

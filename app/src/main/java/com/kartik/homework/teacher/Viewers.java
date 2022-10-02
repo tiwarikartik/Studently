@@ -84,7 +84,7 @@ public class Viewers extends AppCompatActivity implements Interface {
                                 boolean isNotified = snap.getBoolean("notified");
                                 boolean isFileUploaded = snap.getBoolean("uploaded");
                                 if (isFileUploaded) {
-                                    link = snap.getString("Link");
+                                    link = snap.getString("link");
                                 }
 
                                 FirebaseFirestore.getInstance().collection("Standards")
@@ -94,8 +94,8 @@ public class Viewers extends AppCompatActivity implements Interface {
                                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                String name = documentSnapshot.getString("Name");
-                                                String emailId = documentSnapshot.getString("Email ID");
+                                                String name = documentSnapshot.getString("name");
+                                                String emailId = documentSnapshot.getString("emailId");
                                                 viewers.add(new Viewer(name, emailId, link, isNotified, isFileUploaded));
 
                                                 Adapter adapter = new Adapter(Viewers.this, Viewers.this, viewers);

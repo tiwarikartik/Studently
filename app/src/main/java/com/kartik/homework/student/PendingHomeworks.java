@@ -51,61 +51,63 @@ public class PendingHomeworks extends StudentDrawer implements Interface {
         recyclerView = (RecyclerView) findViewById(R.id.pendingRecyclerView);
         txtNothing = (TextView) findViewById(R.id.nothing);
 
-        completeRecyclerView();
+        pendingRecyclerView();
     }
 
-    private void completeRecyclerView() {
-        FirebaseFirestore.getInstance().collection("Homework")
-                .whereEqualTo("className", className)
-                .whereGreaterThan("dueDate", new Date())
-                .limit(3)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot snap : task.getResult()) {
-                                String id = snap.getId();
+    private void pendingRecyclerView() {
+        try {
+            FirebaseFirestore.getInstance().collection("Homework")
+                    .whereEqualTo("className", className)
+                    .whereGreaterThan("dueDate", new Date())
+                    .limit(3)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot snap : task.getResult()) {
+                                    String id = snap.getId();
 
-                                FirebaseFirestore.getInstance()
-                                        .collection("Homework")
-                                        .document(id)
-                                        .collection("Actions")
-                                        .document(uId)
-                                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                uploaded = documentSnapshot.getBoolean("uploaded");
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Homework")
+                                            .document(id)
+                                            .collection("Actions")
+                                            .document(uId)
+                                            .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    uploaded = documentSnapshot.getBoolean("uploaded");
 
-                                                if (uploaded == false) {
-                                                    String title = snap.getString("title");
-                                                    String author = snap.getString("author");
-                                                    long time = snap.getDate("timeStamp").getTime();
+                                                    if (uploaded == false) {
+                                                        String title = snap.getString("title");
+                                                        String author = snap.getString("author");
+                                                        long time = snap.getDate("timeStamp").getTime();
 
-                                                    pendingHomeworks.add(new Pending(title, author, id, time));
-                                                    recyclerView = findViewById(R.id.pendingRecyclerView);
-                                                    com.kartik.homework.recyclerview.pending.Adapter adapter = new com.kartik.homework.recyclerview.pending.Adapter(PendingHomeworks.this, PendingHomeworks.this, pendingHomeworks, R.layout.recycler_view_row_pending_homework);
-                                                    recyclerView.setHasFixedSize(true);
-                                                    recyclerView.setAdapter(adapter);
-                                                    recyclerView.setLayoutManager(new LinearLayoutManager(PendingHomeworks.this));
+                                                        pendingHomeworks.add(new Pending(title, author, id, time));
+                                                        recyclerView = findViewById(R.id.pendingRecyclerView);
+                                                        com.kartik.homework.recyclerview.pending.Adapter adapter = new com.kartik.homework.recyclerview.pending.Adapter(PendingHomeworks.this, PendingHomeworks.this, pendingHomeworks, R.layout.recycler_view_row_pending_homework);
+                                                        recyclerView.setHasFixedSize(true);
+                                                        recyclerView.setAdapter(adapter);
+                                                        recyclerView.setLayoutManager(new LinearLayoutManager(PendingHomeworks.this));
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                }
+                            } else {
+                                System.out.println("Task Exception: " + task.getException());
                             }
-                        } else {
-                            System.out.println("Task Exception: " + task.getException());
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        System.out.println(e);
-                    }
-                });
-
-        if (pendingHomeworks.size() == 0) {
-            txtNothing.setVisibility(View.VISIBLE);
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+        } finally {
+            if (pendingHomeworks.size() == 0) {
+                txtNothing.setVisibility(View.VISIBLE);
+            }
         }
     }
 

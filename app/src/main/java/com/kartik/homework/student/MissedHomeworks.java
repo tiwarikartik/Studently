@@ -50,10 +50,10 @@ public class MissedHomeworks extends StudentDrawer {
         recyclerView = (RecyclerView) findViewById(R.id.missedRecyclerView);
         txtNothing = (TextView) findViewById(R.id.nothing);
 
-        completeRecyclerView();
+        missedRecyclerView();
     }
 
-    private void completeRecyclerView() {
+    private void missedRecyclerView() {
         try {
             FirebaseFirestore.getInstance().collection("Homework")
                     .whereEqualTo("className", className)
