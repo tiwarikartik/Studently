@@ -157,7 +157,6 @@ public class StudentActivity extends StudentDrawer implements Interface, com.kar
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot snap : task.getResult()) {
                                 String id = snap.getId();
-
                                 FirebaseFirestore.getInstance()
                                         .collection("Homework")
                                         .document(id)
@@ -166,21 +165,24 @@ public class StudentActivity extends StudentDrawer implements Interface, com.kar
                                         .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                uploaded = documentSnapshot.getBoolean("uploaded");
+                                                try {
+                                                    uploaded = documentSnapshot.getBoolean("uploaded");
+                                                    if (uploaded == false) {
+                                                        findViewById(R.id.pendingTextView).setVisibility(View.VISIBLE);
+                                                        findViewById(R.id.pendingMoreButton).setVisibility(View.VISIBLE);
+                                                        String title = snap.getString("title");
+                                                        String author = snap.getString("author");
+                                                        long time = snap.getDate("timeStamp").getTime();
 
-                                                if (uploaded == false) {
-                                                    findViewById(R.id.pendingTextView).setVisibility(View.VISIBLE);
-                                                    findViewById(R.id.pendingMoreButton).setVisibility(View.VISIBLE);
-                                                    String title = snap.getString("title");
-                                                    String author = snap.getString("author");
-                                                    long time = snap.getDate("timeStamp").getTime();
-
-                                                    pendingHomeworks.add(new Pending(title, author, id, time));
-                                                    recyclerView = findViewById(R.id.pendingRecyclerView);
-                                                    com.kartik.homework.recyclerview.pending.Adapter adapter = new com.kartik.homework.recyclerview.pending.Adapter(StudentActivity.this, StudentActivity.this, pendingHomeworks, R.layout.recycler_view_column_pending_homework);
-                                                    recyclerView.setHasFixedSize(true);
-                                                    recyclerView.setAdapter(adapter);
-                                                    recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                                                        pendingHomeworks.add(new Pending(title, author, id, time));
+                                                        recyclerView = findViewById(R.id.pendingRecyclerView);
+                                                        com.kartik.homework.recyclerview.pending.Adapter adapter = new com.kartik.homework.recyclerview.pending.Adapter(StudentActivity.this, StudentActivity.this, pendingHomeworks, R.layout.recycler_view_column_pending_homework);
+                                                        recyclerView.setHasFixedSize(true);
+                                                        recyclerView.setAdapter(adapter);
+                                                        recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                                                    }
+                                                } catch (NullPointerException e) {
+                                                    System.out.println("Not Preset");
                                                 }
                                             }
                                         });
@@ -218,21 +220,25 @@ public class StudentActivity extends StudentDrawer implements Interface, com.kar
                                         .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                uploaded = documentSnapshot.getBoolean("uploaded");
+                                                try {
+                                                    uploaded = documentSnapshot.getBoolean("uploaded");
 
-                                                if (uploaded) {
-                                                    findViewById(R.id.completedTextView).setVisibility(View.VISIBLE);
-                                                    findViewById(R.id.completedMoreButton).setVisibility(View.VISIBLE);
-                                                    String title = snap.getString("title");
-                                                    String author = snap.getString("author");
-                                                    long time = snap.getDate("timeStamp").getTime();
+                                                    if (uploaded) {
+                                                        findViewById(R.id.completedTextView).setVisibility(View.VISIBLE);
+                                                        findViewById(R.id.completedMoreButton).setVisibility(View.VISIBLE);
+                                                        String title = snap.getString("title");
+                                                        String author = snap.getString("author");
+                                                        long time = snap.getDate("timeStamp").getTime();
 
-                                                    completedHomeworks.add(new Completed(title, author, id, time));
-                                                    recyclerView = findViewById(R.id.completedRecyclerView);
-                                                    com.kartik.homework.recyclerview.completed.Adapter adapter = new com.kartik.homework.recyclerview.completed.Adapter(StudentActivity.this, StudentActivity.this, completedHomeworks, R.layout.recycler_view_column_pending_homework);
-                                                    recyclerView.setHasFixedSize(true);
-                                                    recyclerView.setAdapter(adapter);
-                                                    recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                                                        completedHomeworks.add(new Completed(title, author, id, time));
+                                                        recyclerView = findViewById(R.id.completedRecyclerView);
+                                                        com.kartik.homework.recyclerview.completed.Adapter adapter = new com.kartik.homework.recyclerview.completed.Adapter(StudentActivity.this, StudentActivity.this, completedHomeworks, R.layout.recycler_view_column_pending_homework);
+                                                        recyclerView.setHasFixedSize(true);
+                                                        recyclerView.setAdapter(adapter);
+                                                        recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                                                    }
+                                                } catch(NullPointerException e) {
+                                                    System.out.println("Met an Error");
                                                 }
                                             }
                                         });

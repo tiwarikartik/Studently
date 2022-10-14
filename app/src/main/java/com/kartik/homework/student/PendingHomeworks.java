@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.kartik.homework.MainActivity;
 import com.kartik.homework.R;
 import com.kartik.homework.databinding.ActivityPendingHomeworksBinding;
+import com.kartik.homework.recyclerview.pending.Adapter;
 import com.kartik.homework.recyclerview.pending.Interface;
 import com.kartik.homework.recyclerview.pending.Pending;
 
@@ -76,19 +77,23 @@ public class PendingHomeworks extends StudentDrawer implements Interface {
                                             .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                    uploaded = documentSnapshot.getBoolean("uploaded");
+                                                    try {
+                                                        uploaded = documentSnapshot.getBoolean("uploaded");
 
-                                                    if (uploaded == false) {
-                                                        String title = snap.getString("title");
-                                                        String author = snap.getString("author");
-                                                        long time = snap.getDate("timeStamp").getTime();
+                                                        if (uploaded == false) {
+                                                            String title = snap.getString("title");
+                                                            String author = snap.getString("author");
+                                                            long time = snap.getDate("timeStamp").getTime();
 
-                                                        pendingHomeworks.add(new Pending(title, author, id, time));
-                                                        recyclerView = findViewById(R.id.pendingRecyclerView);
-                                                        com.kartik.homework.recyclerview.pending.Adapter adapter = new com.kartik.homework.recyclerview.pending.Adapter(PendingHomeworks.this, PendingHomeworks.this, pendingHomeworks, R.layout.recycler_view_row_pending_homework);
-                                                        recyclerView.setHasFixedSize(true);
-                                                        recyclerView.setAdapter(adapter);
-                                                        recyclerView.setLayoutManager(new LinearLayoutManager(PendingHomeworks.this));
+                                                            pendingHomeworks.add(new Pending(title, author, id, time));
+                                                            recyclerView = findViewById(R.id.pendingRecyclerView);
+                                                            Adapter adapter = new Adapter(PendingHomeworks.this, PendingHomeworks.this, pendingHomeworks, R.layout.recycler_view_row_pending_homework);
+                                                            recyclerView.setHasFixedSize(true);
+                                                            recyclerView.setAdapter(adapter);
+                                                            recyclerView.setLayoutManager(new LinearLayoutManager(PendingHomeworks.this));
+                                                        }
+                                                    } catch (NullPointerException e) {
+                                                        System.out.println("Met an Error");
                                                     }
                                                 }
                                             });
@@ -98,7 +103,9 @@ public class PendingHomeworks extends StudentDrawer implements Interface {
                             }
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
+                            .
+
+                    addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             System.out.println(e);

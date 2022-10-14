@@ -95,7 +95,7 @@ public class Viewers extends AppCompatActivity implements Interface {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                 String name = documentSnapshot.getString("name");
-                                                String emailId = documentSnapshot.getString("emailId");
+                                                String emailId = documentSnapshot.getString("emailAddress");
                                                 viewers.add(new Viewer(name, emailId, link, isNotified, isFileUploaded));
 
                                                 Adapter adapter = new Adapter(Viewers.this, Viewers.this, viewers);

@@ -139,7 +139,7 @@ public class GenerateHomework extends TeacherDrawer implements DatePickerDialog.
         FirebaseFirestore.getInstance()
                 .collection("Standards")
                 .document(className)
-                .collection("Teacher")
+                .collection("Teachers")
                 .document(uId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

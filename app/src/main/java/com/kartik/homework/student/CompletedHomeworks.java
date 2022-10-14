@@ -78,19 +78,23 @@ public class CompletedHomeworks extends StudentDrawer implements Interface {
                                             .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                    uploaded = documentSnapshot.getBoolean("uploaded");
+                                                    try {
+                                                        uploaded = documentSnapshot.getBoolean("uploaded");
 
-                                                    if (uploaded) {
-                                                        String title = snap.getString("title");
-                                                        String author = snap.getString("author");
-                                                        long time = snap.getDate("timeStamp").getTime();
+                                                        if (uploaded) {
+                                                            String title = snap.getString("title");
+                                                            String author = snap.getString("author");
+                                                            long time = snap.getDate("timeStamp").getTime();
 
-                                                        completedHomeworks.add(new Completed(title, author, id, time));
-                                                        recyclerView = findViewById(R.id.completedRecyclerView);
-                                                        Adapter adapter = new Adapter(CompletedHomeworks.this, CompletedHomeworks.this, completedHomeworks, R.layout.recycler_view_row_completed_homework);
-                                                        recyclerView.setHasFixedSize(true);
-                                                        recyclerView.setAdapter(adapter);
-                                                        recyclerView.setLayoutManager(new LinearLayoutManager(CompletedHomeworks.this));
+                                                            completedHomeworks.add(new Completed(title, author, id, time));
+                                                            recyclerView = findViewById(R.id.completedRecyclerView);
+                                                            Adapter adapter = new Adapter(CompletedHomeworks.this, CompletedHomeworks.this, completedHomeworks, R.layout.recycler_view_row_completed_homework);
+                                                            recyclerView.setHasFixedSize(true);
+                                                            recyclerView.setAdapter(adapter);
+                                                            recyclerView.setLayoutManager(new LinearLayoutManager(CompletedHomeworks.this));
+                                                        }
+                                                    } catch(NullPointerException e) {
+                                                        System.out.println("Met an Error");
                                                     }
                                                 }
                                             });

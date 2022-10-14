@@ -61,9 +61,9 @@ public class ProfileS extends StudentDrawer {
         editPhone = (TextInputLayout) findViewById(R.id.editPhone);
 
         txtName = (TextView) findViewById(R.id.txtName);
-        txtRollNumber = (TextView) findViewById(R.id.txtRollNumber);
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
-        txtPhone = (TextView) findViewById(R.id.txtPhone);
+        txtRollNumber = (TextView) findViewById(R.id.txtTeacherId);
+        txtEmail = (TextView) findViewById(R.id.txtUgDegree);
+        txtPhone = (TextView) findViewById(R.id.txtPgDegree);
         txtBloodGroup = (TextView) findViewById(R.id.txtBloodGroup);
         imgProfilePhoto = (ImageView) findViewById(R.id.imgProfilePhoto);
 
@@ -99,11 +99,11 @@ public class ProfileS extends StudentDrawer {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         name = documentSnapshot.getString("name");
-                        email = documentSnapshot.getString("emailId");
+                        email = documentSnapshot.getString("emailAddress");
                         bloodGroup = documentSnapshot.getString("bloodGroup");
                         phone = documentSnapshot.getString("phoneNumber");
                         image = documentSnapshot.getString("image");
-                        String rollNo = documentSnapshot.getLong("rollNo").toString();
+                        String rollNo = documentSnapshot.getLong("rollNumber").toString();
 
                         txtName.setText(name);
                         txtRollNumber.setText(rollNo);
